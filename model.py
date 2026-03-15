@@ -1,4 +1,5 @@
-from dgl.batched_graph import batch
+#from dgl.batched_graph import batch
+from dgl import batch
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
