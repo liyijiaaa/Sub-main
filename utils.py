@@ -101,9 +101,8 @@ def generate_rwr_subgraph(dgl_graph, subgraph_size):
     """Generate subgraph with RWR algorithm."""
     all_idx = list(range(dgl_graph.number_of_nodes()))
     reduced_size = subgraph_size - 1
-    #traces = dgl.contrib.sampling.random_walk_with_restart(dgl_graph, all_idx, restart_prob=1, max_nodes_per_seed=subgraph_size*2)
-    traces = dgl.sampling.random_walk_with_restart(dgl_graph, all_idx, restart_prob=1,
-                                                           max_nodes_per_seed=subgraph_size * 2)
+    traces = dgl.contrib.sampling.random_walk_with_restart(dgl_graph, all_idx, restart_prob=1, max_nodes_per_seed=subgraph_size*2)
+
     subv = []
     for i,trace in enumerate(traces):
         subv.append(torch.unique(torch.cat(trace),sorted=False).tolist())
