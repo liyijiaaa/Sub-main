@@ -74,11 +74,11 @@ adj, features, labels, idx_train, idx_val, \
 idx_test, ano_label, str_ano_label, attr_ano_label = load_mat(args.dataset)
 # if the folder don't have diffusion data, the code for generate: 
 
-# diff=gdc(adj,alpha=0.01,eps=0.0001)
-# np.save('diff_cora',diff)
+diff=gdc(adj,alpha=0.01,eps=0.0001)
+np.save('diff_',diff)
 
 #if the folder has diffusion data:
-diff = np.load('./diff_citeseer.npy' ,allow_pickle=True)
+#diff = np.load('./diff_citeseer.npy' ,allow_pickle=True)
 
 b_adj = sp.csr_matrix(diff)
 b_adj = (b_adj + sp.eye(b_adj.shape[0])).todense()
