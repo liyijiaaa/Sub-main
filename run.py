@@ -40,13 +40,13 @@ parser.add_argument('--dropout', type=float, default=0.5)
 args = parser.parse_args()
 
 if args.lr is None:
-    if args.dataset in ['cora', 'citeseer', 'pubmed', 'Flickr' , 'ACM','Disney']:
+    if args.dataset in ['cora', 'citeseer', 'pubmed', 'Flickr' , 'ACM','Disney','Books']:
         args.lr = 1e-3
     elif args.dataset == 'BlogCatalog':
         args.lr = 3e-3
 
 if args.num_epoch is None:
-    if args.dataset in ['cora', 'citeseer', 'pubmed','Flickr' , 'ACM','Disney']:
+    if args.dataset in ['cora', 'citeseer', 'pubmed','Flickr' , 'ACM','Disney','Books']:
         args.num_epoch = 100
     elif args.dataset in ['BlogCatalog', 'Flickr']:
         args.num_epoch = 400
