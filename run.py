@@ -70,7 +70,7 @@ torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
 # Load and preprocess data
-adj, features, labels, idx_train, idx_val, \
+adj, features, idx_train, idx_val, \
 idx_test, ano_label, str_ano_label, attr_ano_label = load_mat(args.dataset)
 # if the folder don't have diffusion data, the code for generate: 
 
