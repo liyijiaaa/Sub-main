@@ -331,5 +331,54 @@ ano_score_final = np.mean(multi_round_ano_score, axis=0)
 auc = roc_auc_score(ano_label, ano_score_final)
 print('AUC:{:.4f}'.format(auc))
 ap = average_precision_score(ano_label, ano_score_final)
+
+#keshihua
+model.load_state_dict(torch.load('best_model.pkl'))
+model.eval()
+subgraphs = generate_rwr_subgraph(dgl_graph, subgraph_size)
+batch_num = nb_nodes // batch_size + 1
+all_idx = list(range(nb_nodes))
+embeddings = np.zeros((nb_nodes, args.embedding_dim))
+with torch.no_grad():
+    for batch_idx in range(batch_num):
+        is_final_batch = (batch_idx == (batch_num - 1))
+        if not is_final_batch:
+            idx = all_idx[batch_idx * batch_size: (batch_idx + 1) * batch_size]
+        else:
+            idx = all_idx[batch_idx * batch_size:]
+        cur_batch_size = len(idx)
+        if cur_batch_size == 0:
+            continue
+        ba, bf = [], []
+        added_adj_zero_row = torch.zeros((cur_batch_size, 1, subgraph_size)).to(device)
+        added_adj_zero_col = torch.zeros((cur_batch_size, subgraph_size + 1, 1)).to(device)
+        added_adj_zero_col[:, -1, :] = 1.
+        added_feat_zero_row = torch.zeros((cur_batch_size, 1, ft_size)).to(device)
+        for i in idx:
+            cur_adj = adj[:, subgraphs[i], :][:, :, subgraphs[i]]
+            cur_feat = features[:, subgraphs[i], :]
+            ba.append(cur_adj)
+            bf.append(cur_feat)
+
+        ba = torch.cat(ba, dim=0)
+        ba = torch.cat((ba, added_adj_zero_row), dim=1)
+        ba = torch.cat((ba, added_adj_zero_col), dim=2)
+
+        bf = torch.cat(bf, dim=0)
+        bf = torch.cat((bf[:, :-1, :], added_feat_zero_row, bf[:, -1:, :]), dim=1)
+        h_1 = model.gcn(bf, ba, sparse=False)
+        target_emb = h_1[:, -1, :]
+        embeddings[idx] = target_emb.cpu().numpy()
+from sklearn.manifold import TSNE
+import matplotlib.pyplot as plt
+tsne = TSNE(n_components=2, perplexity=30, random_state=42, init='pca', learning_rate='auto')
+emb_2d = tsne.fit_transform(embeddings)
+colors = ['#5d7eaf' if label == 0 else '#f52419' for label in ano_label]
+
+plt.figure(figsize=(10, 8))
+plt.scatter(emb_2d[:, 0], emb_2d[:, 1], c=colors, s=20, alpha=0.7, edgecolors='none')
+plt.axis('off')
+plt.text(0.5, -0.05, 'Sub-CR', transform=plt.gca().transAxes, ha='center', va='top', fontsize=12)
+plt.savefig('tsne_embedding_subgraph9.png', dpi=300, bbox_inches='tight', pad_inches=0)
 print('AP:{:.4f}'.format(ap))
 
