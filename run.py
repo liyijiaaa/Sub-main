@@ -380,6 +380,6 @@ plt.figure(figsize=(10, 8))
 plt.scatter(emb_2d[:, 0], emb_2d[:, 1], c=colors, s=20, alpha=0.7, edgecolors='none')
 plt.axis('off')
 plt.text(0.5, -0.05, 'Sub-CR', transform=plt.gca().transAxes, ha='center', va='top', fontsize=12)
-plt.savefig('tsne_embedding_subgraph9.png', dpi=300, bbox_inches='tight', pad_inches=0)
+plt.savefig('/kaggle/working/tsne_embedding_subgraph9.png', dpi=300, bbox_inches='tight', pad_inches=0)
 print('AP:{:.4f}'.format(ap))
 
