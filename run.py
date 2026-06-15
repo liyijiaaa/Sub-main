@@ -366,7 +366,8 @@ with torch.no_grad():
 
         bf = torch.cat(bf, dim=0)
         bf = torch.cat((bf[:, :-1, :], added_feat_zero_row, bf[:, -1:, :]), dim=1)
-        h_1 = model.gcn(bf, ba, sparse=False)
+        du_dummy = torch.zeros_like(bf)
+        h_1 = model.gcn(bf, ba, du_dummy, sparse=False)
         target_emb = h_1[:, -1, :]
         embeddings[idx] = target_emb.cpu().numpy()
 from sklearn.manifold import TSNE
