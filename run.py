@@ -377,9 +377,19 @@ emb_2d = tsne.fit_transform(embeddings)
 colors = ['#5d7eaf' if label == 0 else '#f52419' for label in ano_label]
 
 plt.figure(figsize=(10, 8))
-plt.scatter(emb_2d[:, 0], emb_2d[:, 1], c=colors, s=20, alpha=0.7, edgecolors='none')
-plt.axis('off')
-plt.text(0.5, -0.05, 'Sub-CR', transform=plt.gca().transAxes, ha='center', va='top', fontsize=12)
-plt.savefig('/kaggle/working/tsne_embedding_subgraph9.png', dpi=300, bbox_inches='tight', pad_inches=0)
+colors = ['#5d7eaf' if label == 0 else '#f52419' for label in labels]
+plt.scatter(emb_2d[:, 0], emb_2d[:, 1], c=colors, s=30, alpha=0.7, edgecolors='none')
+plt.xticks([])
+plt.yticks([])
+ax = plt.gca()
+for spine in ax.spines.values():
+    spine.set_visible(True)
+    spine.set_linewidth(1)
+    spine.set_color('black')
+ax.set_frame_on(True)
+plt.text(0.5, -0.08, 'Sub-CR', transform=ax.transAxes,
+         ha='center', va='top', fontsize=22, fontname='Arial')
+plt.savefig('/kaggle/working/SubCRtsne_embedding.png',
+            dpi=600, bbox_inches='tight', pad_inches=0.15)
 print('AP:{:.4f}'.format(ap))
 
