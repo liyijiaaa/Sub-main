@@ -377,7 +377,7 @@ emb_2d = tsne.fit_transform(embeddings)
 
 
 plt.figure(figsize=(10, 8))
-colors = ['#5d7eaf' if label == 0 else '#f52419' for label in labels]
+colors = ['#5d7eaf' if label == 0 else '#f52419' for label in ano_label]
 plt.scatter(emb_2d[:, 0], emb_2d[:, 1], c=colors, s=30, alpha=0.7, edgecolors='none')
 plt.xticks([])
 plt.yticks([])
