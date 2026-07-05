@@ -374,7 +374,7 @@ from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 tsne = TSNE(n_components=2, perplexity=30, random_state=42, init='pca', learning_rate='auto')
 emb_2d = tsne.fit_transform(embeddings)
-colors = ['#5d7eaf' if label == 0 else '#f52419' for label in ano_label]
+
 
 plt.figure(figsize=(10, 8))
 colors = ['#5d7eaf' if label == 0 else '#f52419' for label in labels]
@@ -391,5 +391,8 @@ plt.text(0.5, -0.08, 'Sub-CR', transform=ax.transAxes,
          ha='center', va='top', fontsize=22, fontname='Arial')
 plt.savefig('/kaggle/working/SubCRtsne_embedding.png',
             dpi=600, bbox_inches='tight', pad_inches=0.15)
+
+
+
 print('AP:{:.4f}'.format(ap))
 
